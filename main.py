@@ -4,48 +4,71 @@ import fitz  # PyMuPDF
 import os
 
 
-# inch = input("Диагональ (например 13.3 или 13,3 или 7): ")
-# resolution = input("Разрешение (например 800x480 или 800*480): ")
-# brightness = input("Яркость (целое число): ")
-# touch = input("Тип сенсорного экрана:\n1. PCAP\n2. 5W RES\n3. 4W RES\nВариант: ")
+inch = "7".replace(",", ".")
+# inch = "13".replace(",", ".")
+resolution = "1024x600"
+# resolution = "1920x1080"
+brightness = "600"
+# touch = "резистивный"
+touch = "проекционно-емкостной"
 
 path = os.getcwd()
+context = dict()
 
-if "." in inch or "," in inch:
-    
+resolution_split = list(map(int, resolution.split("x")))
 
+aspect_ratio = 1.34
 
+if resolution_split[0] / resolution_split[1] > aspect_ratio:
+    if "." in inch:
+        template_file = "w_with_dot"
+        inch_split = inch.split(".")
+        context["inch_l"] = inch_split[0]
+        context["inch_r"] = inch_split[1]
+    else:
+        template_file = "w"
+        context["inch"] = inch
+else:
+    if "." in inch:
+        template_file = "s_with_dot"
+        inch_split = inch.split(".")
+        context["inch_l"] = inch_split[0]
+        context["inch_r"] = inch_split[1]
+    else:
+        template_file = "s"
+        context["inch"] = inch
 
-doc = DocxTemplate(f"{path}/w.docx")
+doc = DocxTemplate(f"{path}/templates/{template_file}.docx")
 
-context = {
-    "inch": "7.4",
-    "resolution_w": "1920",
-    "resolution_h": "1200",
-    "brightness": "400",
-    "touch": "PCAP touch",
-}
+if "проекционно-емкостной" in touch:
+    touch_value = "PCAP touch"
+    filename_touch = "PCAP"
+elif "резистивный" in touch:
+    touch_value = "RES touch"
+    filename_touch = "RES"
+
+context.update(
+    resolution_w = resolution_split[0],
+    resolution_h = resolution_split[1],
+    brightness = brightness,
+    touch = touch_value,
+)
 
 doc.render(context)
-
-touch = ""
-
-if "touch" in context:
-    touch = "-PCAP"
     
-output_doc_filename = f"{path}/output/{context['inch']}-{context['resolution_w']}x{context['resolution_h']}-{context['brightness']}{touch}.docx"
+output_doc_filename = f"{path}/output/{inch}-{context['resolution_w']}x{context['resolution_h']}-{context['brightness']}-{filename_touch}.docx"
 
 doc.save(output_doc_filename)
 
-output_pdf_filename = f"{path}/output/{context['inch']}-{context['resolution_w']}x{context['resolution_h']}-{context['brightness']}{touch}.pdf"
+output_pdf_filename = f"{path}/output/{inch}-{context['resolution_w']}x{context['resolution_h']}-{context['brightness']}-{filename_touch}.pdf"
 convert(output_doc_filename, output_pdf_filename)
 
 pdf_file = fitz.open(output_pdf_filename)
 page = pdf_file.load_page(0)
 pix = page.get_pixmap()
-output_jpg_filename = f"{path}/output/{context['inch']}-{context['resolution_w']}x{context['resolution_h']}-{context['brightness']}{touch}.jpg"
+output_jpg_filename = f"{path}/output/{inch}-{context['resolution_w']}x{context['resolution_h']}-{context['brightness']}-{filename_touch}.jpg"
 pix.save(output_jpg_filename)
 pdf_file.close()
 
 # os.remove(output_doc_filename)
-os.remove(output_pdf_filename)
+# os.remove(output_pdf_filename)
