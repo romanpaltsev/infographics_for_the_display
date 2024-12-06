@@ -6,7 +6,7 @@ import os
 
 inch = "7".replace(",", ".")
 # inch = "13".replace(",", ".")
-resolution = "1024x600"
+resolution = "800x600"
 # resolution = "1920x1080"
 brightness = "600"
 # touch = "резистивный"
@@ -65,7 +65,7 @@ convert(output_doc_filename, output_pdf_filename)
 
 pdf_file = fitz.open(output_pdf_filename)
 page = pdf_file.load_page(0)
-pix = page.get_pixmap()
+pix = page.get_pixmap(dpi=600)
 output_jpg_filename = f"{path}/output/{inch}-{context['resolution_w']}x{context['resolution_h']}-{context['brightness']}-{filename_touch}.jpg"
 pix.save(output_jpg_filename)
 pdf_file.close()
