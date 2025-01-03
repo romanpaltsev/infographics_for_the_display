@@ -1,19 +1,16 @@
-[tool.poetry]
-name = "belka-image-display"
+[project]
+name = "infographics-for-the-display"
 version = "0.1.0"
-description = ""
-authors = ["Roman Paltsev <roman.palcev@gmail.com>"]
+description = "Add your description here"
+authors = [
+{ name = "Roman Paltsev", email = "oman.palcev@gmail.com" },
+]
 license = "MIT"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.12"
-pymupdf = "^1.24.11"
-docxtpl = "^0.18.0"
-docx2pdf = "^0.1.8"
-openpyxl = "^3.1.5"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.13"
+dependencies = [
+    "docx2pdf>=0.1.8",
+    "docxtpl>=0.19.1",
+    "openpyxl>=3.1.5",
+    "pymupdf>=1.25.1",
+]
