@@ -1,1 +1,1 @@
-# belka_image_display
+# infographics_for_the_display
