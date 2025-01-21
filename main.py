@@ -48,14 +48,14 @@ elif "резистивный" in touch:
     filename_touch = "RES"
 
 context.update(
-    resolution_w = resolution_split[0],
-    resolution_h = resolution_split[1],
-    brightness = brightness,
-    touch = touch_value,
+    resolution_w=resolution_split[0],
+    resolution_h=resolution_split[1],
+    brightness=brightness,
+    touch=touch_value,
 )
 
 doc.render(context)
-    
+
 output_doc_filename = f"{path}/output/{inch}-{context['resolution_w']}x{context['resolution_h']}-{context['brightness']}-{filename_touch}.docx"
 
 doc.save(output_doc_filename)
