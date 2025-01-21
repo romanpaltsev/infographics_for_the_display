@@ -3,7 +3,7 @@ name = "infographics-for-the-display"
 version = "0.1.0"
 description = "Add your description here"
 authors = [
-{ name = "Roman Paltsev", email = "oman.palcev@gmail.com" },
+{ name = "Roman Paltsev", email = "roman.palcev@gmail.com" },
 ]
 license = "MIT"
 readme = "README.md"
